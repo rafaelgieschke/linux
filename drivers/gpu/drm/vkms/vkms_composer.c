@@ -157,11 +157,6 @@ static void compose_plane(struct vkms_composer *primary_composer,
 	void *vaddr;
 	void (*pixel_blend)(const u8 *p_src, u8 *p_dst);
 
-	if (WARN_ON(iosys_map_is_null(&plane_composer->map[0])))
-		return;
-
-	vaddr = plane_composer->map[0].vaddr;
-
 	if (fb->format->format == DRM_FORMAT_ARGB8888)
 		pixel_blend = &alpha_blend;
 	else
@@ -186,13 +181,6 @@ static int compose_active_planes(void **vaddr_out,
 			return -ENOMEM;
 		}
 	}
-
-	if (WARN_ON(iosys_map_is_null(&primary_composer->map[0])))
-		return -EINVAL;
-
-	vaddr = primary_composer->map[0].vaddr;
-
-	memcpy(*vaddr_out, vaddr, gem_obj->size);
 
 	/* If there are other planes besides primary, we consider the active
 	 * planes should be in z-order and compose them associatively:
@@ -255,9 +243,6 @@ void vkms_composer_worker(struct work_struct *work)
 
 	if (!primary_composer)
 		return;
-
-	if (wb_pending)
-		vaddr_out = crtc_state->active_writeback->data[0].vaddr;
 
 	ret = compose_active_planes(&vaddr_out, primary_composer,
 				    crtc_state);

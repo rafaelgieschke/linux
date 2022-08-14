@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0+
 
-#include <linux/iosys-map.h>
-
 #include <drm/drm_atomic.h>
 #include <drm/drm_edid.h>
 #include <drm/drm_fourcc.h>
