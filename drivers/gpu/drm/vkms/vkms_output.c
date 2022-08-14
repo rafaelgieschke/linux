@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0+
 
+#include "edid.h"
 #include "vkms_drv.h"
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_edid.h>
@@ -23,8 +24,7 @@ static int vkms_conn_get_modes(struct drm_connector *connector)
 {
 	int count;
 
-	count = drm_add_modes_noedid(connector, XRES_MAX, YRES_MAX);
-	drm_set_preferred_mode(connector, XRES_DEF, YRES_DEF);
+	count = drm_add_edid_modes(connector, (struct edid *) _edid);
 
 	return count;
 }
