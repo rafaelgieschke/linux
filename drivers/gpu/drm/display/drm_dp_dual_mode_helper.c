@@ -280,7 +280,7 @@ int drm_dp_dual_mode_max_tmds_clock(const struct drm_device *dev, enum drm_dp_du
 	 * Type 2 adaptors can tells us their limit
 	 */
 	if (type < DRM_DP_DUAL_MODE_TYPE2_DVI)
-		return 165000;
+		return 300000;
 
 	ret = drm_dp_dual_mode_read(adapter, DP_DUAL_MODE_MAX_TMDS_CLOCK,
 				    &max_tmds_clock, sizeof(max_tmds_clock));
